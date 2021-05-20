@@ -16,7 +16,7 @@ async function main() {
     agent = HttpsProxyAgent(proxy);
   }
   const OctokitBuilder = Octokit.defaults({
-    agent: agent,
+    request: { agent: agent },
   });
 
   try {

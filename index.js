@@ -3,14 +3,24 @@ const yaml = require("js-yaml");
 
 const core = require("@actions/core");
 const { Octokit } = require("@octokit/action");
+const { HttpsProxyAgent } = require("https-proxy-agent");
 
 main();
 
 async function main() {
   const time = Date.now();
 
+  var proxy = process.env.https_proxy || process.env.HTTPS_PROXY;
+  let agent = {};
+  if (proxy) {
+    agent = HttpsProxyAgent(proxy);
+  }
+  const OctokitBuilder = Octokit.defaults({
+    agent: agent,
+  });
+
   try {
-    const octokit = new Octokit();
+    const octokit = new OctokitBuilder();
     const { route, ...parameters } = getAllInputs();
 
     core.info(route);

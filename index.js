@@ -13,7 +13,7 @@ async function main() {
   var proxy = process.env.https_proxy || process.env.HTTPS_PROXY;
   let agent = {};
   if (proxy) {
-    agent = HttpsProxyAgent(proxy);
+    agent = new HttpsProxyAgent(proxy);
   }
   const OctokitBuilder = Octokit.defaults({
     request: { agent: agent },
